@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,16 +9,17 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
-			font-size: 70%;
+            padding-top: 0px; /* 0px to make the container go all the way to the bottom of the topbar */
+	    font-size: 70%;
         }
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
     <link href="css/styles.css" rel="stylesheet">
-	<link href="css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="css/dataTables.tableTools.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -26,164 +28,202 @@
 
 
     <script src="http://use.edgefonts.net/andika.js"></script>
-    <script src="http://use.edgefonts.net/arvo.js"></script>
-
+    <!-- <script src="http://use.edgefonts.net/arvo.js"></script> -->
 </head>
 
 <html>
+    <script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.dataTables.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/dataTables.bootstrap.js"></script>
+	<!-- <script type="text/javascript" src="js/fnReloadAjax.js"></script> -->
+	<script type="text/javascript" src="js/dataTables.tableTools.js"></script>
+	<script type="text/javascript" src="js/Chart.js"></script>
+
 <body>
 
-<div class="header">
-    <div class="navbar navbar-fixed-top" style="z-index: 10;">
-        <div class="navbar-inner">
-            <div class="container">
-                <a class="brand" href="#">Welcome to the Armada Dashboard</a>
-            </div>
+    <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <img src="http://old.dmps.k12.ia.us/schools/1Lovejoy/images/ship.gif" alt="ship" style="width:50px;height:50px"> <a class="navbar-brand" href="#">Welcome to Armada</a>
         </div>
-    </div>
-</div>
+      </div>
+    </nav>
 
 <div class="container">
-Today is <script>document.write(Date());</script>
+<H4>Today is 
+<script>
+	var d = new Date();
+	document.write(d.toDateString());
+</script>
+</H4>
 <br/>
-<br/>
+<div class="panel panel-primary col-xs-6" >
+  <div class="panel-heading">Host A</div>
+  <div class="panel-body">
+	  <div class="row">
+		<div class="col-xs-6">
+			Running: <span class="label label-default label-success">5</span><br/>
+			Idle: <span class="label label-info">1</span><br/>
+			Error: <span class="label label-danger">2</span><br/>
+	  	</div>
+	  	<div class="col-xs-6">
+		  <canvas id="myChart3" width="200" height="200"></canvas>
+	  	</div>
+  </div>
+</div>
+</div>
 <br/>
 	<div class="span12">
 		<legend>Container Activity</legend>
 		<div class="row-fluid table-condensed">
-			<div style="text-align: right">
-				Refresh every
-				<select>
-				  <option value="30">30 Seconds</option>
-				  <option value="60">1 Minute</option>
-				  <option value="300">30 Minutes</option>
-				  <option value="900">1 Hour</option>
-				</select>
-			</div>
         	<table id="containers" class="table table-hover table-bordered" cellspacing="0" width="100%">
 				<thead>
 					<tr>
 						<th>Agent ID</th>
+						<th>Primary IP Address</th>
+						<th>Primary Mac Address</th>
 						<th>Host Name</th>
-                        <th>CPU Vendor</th>
-                    	<th>CPU Model</th>
-                    	<th>CPU Count</th>
-                    	<th>Diskspace Total (GB)</th>
-                       	<th>Diskspace Used (GB)</th>
-                    	<th>Diskspace Free (GB)</th>
-                    	<th>Memory Total (kB)</th>
-                       	<th>Memory Used (kB)</th>
-                    	<th>Memory Free (kB)</th>
-                      	<th>OS Description</th>
-                     	<th>OS Data Model</th>
-                     	<th>Primary IP</th>
-                     	<th>Primary MAC Address</th>
-                     </tr>
-                  </thead>
-                <tfoot>
-					<tr>
-						<th>Agent ID</th>
-						<th>Host Name</th>
-                        <th>CPU Vendor</th>
-                    	<th>CPU Model</th>
-                    	<th>CPU Count</th>
-                    	<th>Diskspace Total (GB)</th>
-                       	<th>Diskspace Used (GB)</th>
-                    	<th>Diskspace Free (GB)</th>
-                    	<th>Memory Total (kB)</th>
-                       	<th>Memory Used (kB)</th>
-                    	<th>Memory Free (kB)</th>
-                      	<th>OS Description</th>
-                     	<th>OS Data Model</th>
-                     	<th>Primary IP</th>
-                     	<th>Primary MAC Address</th>
-                     </tr>
-                  </tfoot>         
-                <tbody>
-                  	<tr>
-	            		<td>1</td>
-                        <td>bitsy.mit.edu</td>
-                    	<td>GenuineIntel</td>
-                   		<td>Intel(R) Core(TM) i3-2100T CPU @ 2.50GHz</td>
-                		<td>2</td>
-                  		<td>500</td>
-                   		<td>120</td>
-                   		<td>380</td>
-						<td>8177444</td>
-                		<td>5250532</td>
-                 		<td>1528304</td>
-                   		<td>Linux - Ubuntu</td>
-						<td>64bit</td>
-						<td>18.72.0.3</td>
-						<td>03:16:b1:c2:db:a4</td>
+						<th>CPU Vendor</th>
+						<th>CPU Model</th>
+						<th>CPU Count</th>
+						<th>OS Name</th>
+						<th>Memory Free</th>
+						<th>Disk Space Free</th>
 					</tr>
-					<tr>
-						<td>2</td>
-						<td>cdm.depaul.edu</td>
-						<td>GenuineIntel</td>
-						<td>Intel(R) Xeon(R) CPU E3-1220L V2 @ 2.30GHz</td>
-						<td>3</td>
-						<td>750</td>
-						<td>240</td>
-						<td>760</td>
-						<td>8177444</td>
-						<td>5250532</td>
-						<td>1528304</td>
-						<td>Linux - CentOS</td>
-						<td>64bit</td>
-						<td>140.192.32.136</td>
-						<td>00:26:b9:82:9b:64</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>cis.ksu.edu</td>
-						<td>AuthenticAMD</td>
-						<td>AMD Opteron(TM) Processor 6272</td>
-						<td>4</td>
-						<td>650</td>
-						<td>320</td>
-						<td>680</td>
-						<td>8177444</td>
-						<td>5250532</td>
-						<td>1528304</td>
-						<td>Linux - Red Hat</td>
-						<td>64bit</td>
-						<td>129.130.10.40</td>
-						<td>0a:f6:b3:a2:b9:46</td>
-					</tr>
-				</tbody>
-			</table>
+				</thead>
+	        </table>
         </div>
 	</div>
+	<div role="tabpanel">
+		<ul class="nav nav-tabs" role="tablist" id="myTab">
+		  <li role="presentation" class="active"><a href="#details" aria-controls="home" role="tab" data-toggle="tab">Details</a></li>
+		  <li role="presentation"><a href="#logs" aria-controls="profile" role="tab" data-toggle="tab">Logs</a></li>
+		</ul>
+
+		<div class="tab-content">
+		  <div role="tabpanel" class="tab-pane" id="details">		  
+		  	<div class="panel panel-primary" >
+			  <div class="panel-body">
+				  <div class="row">
+					<div class="col-xs-6">
+						IP Address: 0.0.0.0<br/>
+						MAC Address: xxxxx<br/>
+						CPU Vendor/Model: Inten XEON<br/>
+						# of CPUs: 1<br/>
+						OS: Mac OSX<br/>
+						Memory<br/>
+						Used: 40% Free: 60% Total: 16GB<br/>
+						Hard Drives (1 Drive(s) in total)<br/>
+						Used: 22% Free: 78% Total: 320GB<br/>
+						<br/>
+						Notes:<br/>
+					</div>
+					<div class="col-xs-6">
+					  <canvas id="myChart" width="200" height="200"></canvas>
+					  <canvas id="myChart2" width="200" height="200"></canvas>
+					</div>
+			  </div>
+			</div>
+		  </div>
+		  <div role="tabpanel" class="tab-pane" id="logs">
+			  <p>More to come!</p>
+		  </div>
+		</div>
+
+		<script>
+		  $(function () {
+			$('#myTab a:first').tab('show')
+		  })
+		</script>
+	</div>
 </div>
-<script type="text/javascript" src="js/jquery.js"></script>
-<script type="text/javascript" src="js/jquery.dataTables.js"></script>
-<script type="text/javascript" src="js/dataTables.bootstrap.js"></script>
+
 <script>
 	$(document).ready(function() {
-    	var selected = [];
- 
-    $("#containers").dataTable({
-        "rowCallback": function( row, data ) {
-            if ( $.inArray(data.DT_RowId, selected) !== -1 ) {
-                $(row).addClass('selected active');
-            }
-        }
-    });
- 
-    $('#containers tbody').on('click', 'tr', function () {
-        var id = this.id;
-        var index = $.inArray(id, selected);
- 
-        if ( index === -1 ) {
-            selected.push( id );
-        } else {
-            selected.splice( index, 1 );
-        }
- 
-        $(this).toggleClass('selected active');
-    } );
-} );
+		var data2 = {
+			labels: ["January", "February", "March", "April", "May", "June", "July"],
+			datasets: [
+				{
+					label: "My First dataset",
+					fillColor: "rgba(220,220,220,0.2)",
+					strokeColor: "rgba(220,220,220,1)",
+					pointColor: "rgba(220,220,220,1)",
+					pointStrokeColor: "#fff",
+					pointHighlightFill: "#fff",
+					pointHighlightStroke: "rgba(220,220,220,1)",
+					data: [65, 59, 80, 81, 56, 55, 40]
+				}
+			]
+		};
+		
+		var data3 = [
+			{
+				value: 300,
+				color:"#F7464A",
+				highlight: "#FF5A5E",
+				label: "Red"
+			},
+			{
+				value: 50,
+				color: "#46BFBD",
+				highlight: "#5AD3D1",
+				label: "Green"
+			},
+			{
+				value: 100,
+				color: "#FDB45C",
+				highlight: "#FFC870",
+				label: "Blue"
+			}
+		];
+	
+		var ctx = document.getElementById("myChart").getContext("2d");
+		var myRadarChart = new Chart(ctx).Line(data2);
+		
+		var ctx2 = document.getElementById("myChart2").getContext("2d");
+		var myLineChart = new Chart(ctx2).Line(data2);
+
+		var ctx3 = document.getElementById("myChart3").getContext("2d");		
+		var myPieChart = new Chart(ctx3).Pie(data3);
+	
+		var table = $('#containers').dataTable( {
+			"cache": false,
+			"white-space": "nowrap",
+			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+	    		"ajax": {
+	    			url: "",
+	    			dataSrc: ""
+	    		},
+			"columns": [
+				{ "data": "agentId" },
+				{ "data": "primaryIpAddress" },
+				{ "data": "primaryMacAddress" },
+				{ "data": "hostName" },
+				{ "data": "cpuVendor" },
+				{ "data": "cpuModel" },
+				{ "data": "cpuCount" },
+				{ "data": "memFree" },
+				{ "data": "diskSpaceFree" },
+			]
+		} );
+		$.fn.dataTable.ext.errMode = 'throw';
+		
+//		setInterval( function () {
+//			table.fnReloadAjax();
+//		}, 30000 );
+		
+		//$('#containers tbody').on('click', 'tr', function () {
+		//	var name = $('td', this).eq(0).text();
+	    //    	alert( 'You clicked on '+name+'\'s row' );
+    	//	} );
+	} );
 </script>
 
 </body>
